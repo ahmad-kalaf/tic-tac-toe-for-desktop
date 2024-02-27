@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,6 +41,7 @@ public class GameGUI implements ActionListener {
 		_frame.setTitle("Tic Tac Toe");
 		_frame.setResizable(false);
 		_frame.setLayout(new FlowLayout());
+		_frame.setLocationRelativeTo(null);
 
 		// label to display the information who's turn it is
 		_infoLabel = new JLabel();
@@ -83,7 +85,6 @@ public class GameGUI implements ActionListener {
 		_frame.add(_restartButton);
 
 		_frame.setVisible(true);
-
 	}
 
 	/**
@@ -125,7 +126,7 @@ public class GameGUI implements ActionListener {
 				if (_logic.spielIstZuende()) {
 					showWinner();
 				}
-			} else if(_logic.spielIstZuende()){ // game is over
+			} else if (_logic.spielIstZuende()) { // game is over
 				showWinner();
 			}
 			_infoLabel.setText(_next + " ist dran");
@@ -200,7 +201,7 @@ public class GameGUI implements ActionListener {
 
 		confirmDialog.setVisible(true);
 	}
-	
+
 	private void gameOverDialog() {
 		JDialog confirmDialog = new JDialog(_frame, "Spiel zu Ende", true);
 
