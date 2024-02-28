@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,11 +27,16 @@ public class GameGUI implements ActionListener {
 	private JButton _restartButton;
 	private String _next;
 	private GameLogic _logic;
+	private final String _player1;
+	private final String _player2;
 
 	public GameGUI() {
+		_player1 = "\u2717";
+		_player2 = "\u2B55";
+		
 		_logic = new GameLogic();
 
-		_next = "X";
+		_next = _player1;
 
 		// initialize frame
 		_frame = new JFrame();
@@ -60,7 +64,7 @@ public class GameGUI implements ActionListener {
 		_infoLabel.setText(_next + " ist dran");
 
 		// initialize all game fields and add to the _fieldsPanel
-		Font buttonsFont = new Font("Arial", Font.PLAIN, 40);
+		Font buttonsFont = new Font("Palatino", Font.PLAIN, 40);
 		_fields = new JButton[9];
 		for (int i = 0; i < _fields.length; ++i) {
 			_fields[i] = new JButton();
@@ -138,7 +142,7 @@ public class GameGUI implements ActionListener {
 	}
 
 	private void setNextPlayer() {
-		_next = _logic.gibAktuellenSpieler() == 1 ? "X" : "O";
+		_next = _logic.gibAktuellenSpieler() == 1 ? _player1 : _player2;
 		if (_logic.gibAktuellenSpieler() == 0) {
 			_next = "-";
 		}
@@ -151,7 +155,7 @@ public class GameGUI implements ActionListener {
 		for (int i = 0; i < _fields.length; ++i) {
 			_fields[i].setText("");
 			_fields[i].setEnabled(true);
-			_next = "X";
+			_next = _player1;
 			_infoLabel.setText("X ist dran");
 		}
 	}
@@ -202,6 +206,10 @@ public class GameGUI implements ActionListener {
 		confirmDialog.setVisible(true);
 	}
 
+	/**
+	 * This method is called when the game is over / all fields are occupied / a
+	 * player has won. The player has the options to end the game or restart it.
+	 */
 	private void gameOverDialog() {
 		JDialog confirmDialog = new JDialog(_frame, "Spiel zu Ende", true);
 
@@ -231,7 +239,9 @@ public class GameGUI implements ActionListener {
 		yesNoPanel.add(restart);
 		yesNoPanel.add(exit);
 
-		JLabel confirmQuestion = new JLabel("Gewinner: " + _logic.gibGewinner());
+		JLabel confirmQuestion = new JLabel(
+				_logic.gibGewinner() != 0 ? ("Gewinner: " + convNumToPlayer(_logic.gibGewinner()))
+						: (convNumToPlayer(_logic.gibGewinner())));
 		confirmQuestion.setHorizontalAlignment(SwingConstants.CENTER);
 
 		confirmDialog.setLayout(new BorderLayout());
@@ -245,4 +255,21 @@ public class GameGUI implements ActionListener {
 		confirmDialog.setVisible(true);
 	}
 
+	/**
+	 * Converts a number to player. 1 is X, 2 is O.
+	 * @param num
+	 * @return "X" if num is 1, "O" if num is 2, else "Unentschieden"
+	 */
+	private String convNumToPlayer(int num) {
+		String result = "Unentschieden";
+		switch (num) {
+		case 1:
+			result = _player1;
+			break;
+		case 2:
+			result = _player2;
+			break;
+		}
+		return result;
+	}
 }
