@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import game_logic.GameLogic;
+import sounds.ClickSound;
 
 /**
  * This GUI is a frame of 9 game fields (3X3) for the game "Tic Tac Toe" / "X ,
@@ -29,8 +30,10 @@ public class GameGUI implements ActionListener {
 	private GameLogic _logic;
 	private final String _player1;
 	private final String _player2;
+	private ClickSound _clickSound;
 
 	public GameGUI() {
+		_clickSound = new ClickSound();
 		_player1 = "\u2717";
 		_player2 = "\u2B55";
 		
@@ -82,6 +85,10 @@ public class GameGUI implements ActionListener {
 		_restartButton.addActionListener(this);
 		_restartButton.setPreferredSize(new Dimension(50, 50));
 		_restartButton.setFocusable(false);
+		
+		// click sound button
+		// TODO
+		
 
 		// add components to the frame
 		_frame.add(_fieldsPanel);
@@ -99,6 +106,12 @@ public class GameGUI implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		try {
+			_clickSound.startSound();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		int row = 0;
 		int col = 0;
 
@@ -130,10 +143,13 @@ public class GameGUI implements ActionListener {
 				if (_logic.spielIstZuende()) {
 					showWinner();
 				}
+				
 			} else if (_logic.spielIstZuende()) { // game is over
 				showWinner();
 			}
 			_infoLabel.setText(_next + " ist dran");
+			
+			
 		}
 	}
 
