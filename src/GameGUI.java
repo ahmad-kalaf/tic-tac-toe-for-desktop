@@ -106,12 +106,6 @@ public class GameGUI implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		try {
-			_clickSound.startSound();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		int row = 0;
 		int col = 0;
 
@@ -148,8 +142,12 @@ public class GameGUI implements ActionListener {
 				showWinner();
 			}
 			_infoLabel.setText(_next + " ist dran");
-			
-			
+			try {
+				_clickSound.startSound();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 

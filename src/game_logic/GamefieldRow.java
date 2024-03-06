@@ -2,18 +2,23 @@ package game_logic;
 
 public class GamefieldRow {
 
-	private int _spalte0;
-    private int _spalte1;
-    private int _spalte2;
+	private int[] _spalten;
+//	private int _spalte0;
+//    private int _spalte1;
+//    private int _spalte2;
 
     /**
      * Initialisiert eine neue SpielfeldZeile
      */
     public GamefieldRow()
     {
-        _spalte0 = 0;
-        _spalte1 = 0;
-        _spalte2 = 0;
+    	_spalten = new int[3];
+    	_spalten[0] = 0;
+    	_spalten[1] = 0;
+    	_spalten[2] = 0;
+//        _spalte0 = 0;
+//        _spalte1 = 0;
+//        _spalte2 = 0;
     }
        
     /**
@@ -25,25 +30,26 @@ public class GamefieldRow {
      */
     public int gibBesitzer(int spalte)
     {
-        int besitzer;
-        switch (spalte)
-        {
-        case 0:
-            besitzer = _spalte0;
-            break;
-
-        case 1:
-            besitzer = _spalte1;
-            break;
-
-        case 2:
-            besitzer = _spalte2;
-            break;
-
-        default:
-            throw new IllegalArgumentException(String.valueOf(spalte));
-        }
-        return besitzer;
+//        int besitzer;
+//        switch (spalte)
+//        {
+//        case 0:
+//            besitzer = _spalte0;
+//            break;
+//
+//        case 1:
+//            besitzer = _spalte1;
+//            break;
+//
+//        case 2:
+//            besitzer = _spalte2;
+//            break;
+//
+//        default:
+//            throw new IllegalArgumentException(String.valueOf(spalte));
+//        }
+//        return besitzer;
+    	return _spalten[spalte];
     }
 
     /**
@@ -56,23 +62,27 @@ public class GamefieldRow {
      */
     public void besetze(int spalte, int spieler)
     {
-        switch (spalte)
-        {
-        case 0:
-            _spalte0 = spieler;
-            break;
-
-        case 1:
-            _spalte1 = spieler;
-            break;
-
-        case 2:
-            _spalte2 = spieler;
-            break;
-
-        default:
-            throw new IllegalArgumentException(String.valueOf(spalte));
-        }
+//        switch (spalte)
+//        {
+//        case 0:
+//            _spalte0 = spieler;
+//            break;
+//
+//        case 1:
+//            _spalte1 = spieler;
+//            break;
+//
+//        case 2:
+//            _spalte2 = spieler;
+//            break;
+//
+//        default:
+//            throw new IllegalArgumentException(String.valueOf(spalte));
+//        }
+    	if(spalte < 0 || spalte > 2) {
+    		throw new IllegalArgumentException(String.valueOf(spalte));
+    	}
+    	_spalten[spalte] = spieler;
     }
     
     /**
@@ -80,7 +90,7 @@ public class GamefieldRow {
      */
     public boolean istVoll()
     {
-        return (_spalte0 > 0) && (_spalte1 > 0) && (_spalte2 > 0);
+        return _spalten[0] != 0 && _spalten[1] != 0 && _spalten[2] != 0;
     }
     
 }
