@@ -31,11 +31,14 @@ public class GameGUI implements ActionListener {
 	private final String _player1;
 	private final String _player2;
 	private ClickSound _clickSound;
+	private boolean _isMute;
+	private JToggleButton _setMute;
 
 	public GameGUI() {
 		_clickSound = new ClickSound();
 		_player1 = "\u2717";
 		_player2 = "\u2B55";
+		_isMute = false;
 		
 		_logic = new GameLogic();
 
@@ -44,7 +47,7 @@ public class GameGUI implements ActionListener {
 		// initialize frame
 		_frame = new JFrame();
 		_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		_frame.setSize(350, 420);
+		_frame.setSize(350, 470);
 		_frame.setTitle("Tic Tac Toe");
 		_frame.setResizable(false);
 		_frame.setLayout(new FlowLayout());
@@ -55,7 +58,7 @@ public class GameGUI implements ActionListener {
 		_infoLabel.setBackground(Color.white);
 		_infoLabel.setOpaque(true);
 		_infoLabel.setBorder(new LineBorder(Color.black, 2));
-		_infoLabel.setPreferredSize(new Dimension(250, 50));
+		_infoLabel.setPreferredSize(new Dimension(300, 50));
 		_infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		_infoLabel.setVerticalAlignment(SwingConstants.CENTER);
 		_infoLabel.setFont(new Font("Lato", Font.PLAIN, 40));
@@ -83,17 +86,16 @@ public class GameGUI implements ActionListener {
 		// single button to restart the game
 		_restartButton = new JButton("\u27F3");
 		_restartButton.addActionListener(this);
-		_restartButton.setPreferredSize(new Dimension(50, 50));
+		_restartButton.setPreferredSize(new Dimension(150, 50));
 		_restartButton.setFocusable(false);
 		
-		// click sound button
-		// TODO
-		
+		createToggleButton();
 
 		// add components to the frame
 		_frame.add(_fieldsPanel);
 		_frame.add(_infoLabel);
-		_frame.add(_restartButton);
+		_frame.add(_setMute);
+		_frame.add(_restartButton);		
 
 		_frame.setVisible(true);
 	}
@@ -109,6 +111,7 @@ public class GameGUI implements ActionListener {
 		int row = 0;
 		int col = 0;
 
+		// get the postition of clicked game field 
 		for (int i = 0; i < 9; i++) {
 			if (e.getSource() == _fields[i]) {
 				if (i <= 2) {
@@ -133,6 +136,15 @@ public class GameGUI implements ActionListener {
 				button.setText(_next);
 //				button.setEnabled(false);
 				setNextPlayer();
+				// play sound
+				if(!_isMute) {
+					try {
+						_clickSound.startSound();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 				// game over ?
 				if (_logic.spielIstZuende()) {
 					showWinner();
@@ -141,13 +153,8 @@ public class GameGUI implements ActionListener {
 			} else if (_logic.spielIstZuende()) { // game is over
 				showWinner();
 			}
+			
 			_infoLabel.setText(_next + " ist dran");
-			try {
-				_clickSound.startSound();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 		}
 	}
 
@@ -285,5 +292,24 @@ public class GameGUI implements ActionListener {
 			break;
 		}
 		return result;
+	}
+	
+	private void createToggleButton() {
+		_setMute = new JToggleButton("Ton ist an");
+		_setMute.setFocusable(false);
+		_setMute.setPreferredSize(new Dimension(150, 50));
+		_setMute.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(_setMute.isSelected()) {
+					_setMute.setText("Ton is aus");
+					_isMute = true;
+				} else {
+					_setMute.setText("Ton is an");
+					_isMute = false;
+				}
+			}
+		});
 	}
 }
