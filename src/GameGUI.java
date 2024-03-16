@@ -150,17 +150,12 @@ public class GameGUI implements ActionListener {
 					showWinner();
 				}
 				
-				
 			} else if (_logic.spielIstZuende()) { // game is over
 				showWinner();
 			}
 			
 			_infoLabel.setText(_next + " ist dran");
 		}
-	}
-	
-	private void focusOnWinnerFields() {
-		
 	}
 
 	private void showWinner() {	
@@ -178,6 +173,7 @@ public class GameGUI implements ActionListener {
 	 * clear / delete the text of all game fields
 	 */
 	private void clearFields() {
+		_logic = new GameLogic();
 		for (int i = 0; i < _fields.length; ++i) {
 			_fields[i].setText("");
 			_fields[i].setEnabled(true);
@@ -249,7 +245,6 @@ public class GameGUI implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				clearFields();
-				_logic = new GameLogic();
 				confirmDialog.dispose();
 			}
 		});
