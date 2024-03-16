@@ -158,7 +158,10 @@ public class GameGUI implements ActionListener {
 		}
 	}
 
-	private void showWinner() {	
+	private void showWinner() {
+		for (int index : _logic.get_winnIndicies()) {
+			_fields[index].setBackground(Color.green);
+		}
 		gameOverDialog();
 	}
 
@@ -176,6 +179,7 @@ public class GameGUI implements ActionListener {
 		_logic = new GameLogic();
 		for (int i = 0; i < _fields.length; ++i) {
 			_fields[i].setText("");
+			_fields[i].setBackground(Color.white);
 			_fields[i].setEnabled(true);
 			_next = _player1;
 			_infoLabel.setText("X ist dran");

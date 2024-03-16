@@ -1,12 +1,15 @@
 package game_logic;
 
+import java.util.*;
+
 public class GameLogic {
 
 	private Gamefield _spielfeld;
     private int _aktuellerSpieler;
     private int _gewinner;
+    private List<Integer> _winnIndicies;
 
-    /**
+	/**
      * Initialisiert die Logik für ein neues Tic-Tac-Toe-Spiel mit einem 
      * leeren Spielfeld. Spieler 1 ist als erster dran, und das Spiel ist 
      * noch nicht zu Ende.
@@ -16,6 +19,7 @@ public class GameLogic {
         _spielfeld = new Gamefield();
         _aktuellerSpieler = 1;
         _gewinner = -1;
+        _winnIndicies = new ArrayList<Integer>();
     }
 
     /**
@@ -134,10 +138,39 @@ public class GameLogic {
                                             int pos2Zeile, int pos2Spalte,
                                             int pos3Zeile, int pos3Spalte)
     {
-        return aktuellerSpielerBesitzt(pos1Zeile,pos1Spalte)
-           &&  aktuellerSpielerBesitzt(pos2Zeile,pos2Spalte)
-           &&  aktuellerSpielerBesitzt(pos3Zeile,pos3Spalte);
+    	if(aktuellerSpielerBesitzt(pos1Zeile,pos1Spalte)
+    	&& aktuellerSpielerBesitzt(pos2Zeile,pos2Spalte)
+    	&& aktuellerSpielerBesitzt(pos3Zeile,pos3Spalte)) 
+    	{
+    		_winnIndicies.add(rowColToIndex(pos1Zeile, pos1Spalte));
+    		_winnIndicies.add(rowColToIndex(pos2Zeile, pos2Spalte));
+    		_winnIndicies.add(rowColToIndex(pos3Zeile, pos3Spalte));
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
+    
+    private int rowColToIndex(int row, int col) {
+    	int index = 0;
+    	switch (row) {
+		case 0:
+			index = col == 0 ? 0 : (col == 1 ? 1 : 2);
+			break;
+		case 1:
+			index = col == 0 ? 3 : (col == 1 ? 4 : 5);
+			break;
+		case 2:
+			index = col == 0 ? 6 : (col == 1 ? 7 : 8);
+			break;
+		}
+    	return index;
+    }
+    
+    public List<Integer> get_winnIndicies() 
+    {
+		return _winnIndicies;
+	}
     
     private boolean aktuellerSpielerBesitzt(int zeile, int spalte)
     {
