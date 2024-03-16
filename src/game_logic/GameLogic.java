@@ -7,8 +7,9 @@ public class GameLogic {
     private int _gewinner;
 
     /**
-     * Initialisiert ein neues Tic-Tac-Toe-Spiel mit einem leeren Spielfeld.
-     * Spieler 1 ist als erster dran, und das Spiel ist noch nicht zu Ende.
+     * Initialisiert die Logik für ein neues Tic-Tac-Toe-Spiel mit einem 
+     * leeren Spielfeld. Spieler 1 ist als erster dran, und das Spiel ist 
+     * noch nicht zu Ende.
      */
     public GameLogic()
     {

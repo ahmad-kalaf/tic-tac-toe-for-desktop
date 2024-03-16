@@ -89,6 +89,7 @@ public class GameGUI implements ActionListener {
 		_restartButton.setPreferredSize(new Dimension(150, 50));
 		_restartButton.setFocusable(false);
 		
+		// create button to turn on / off the sound
 		createToggleButton();
 
 		// add components to the frame
@@ -132,10 +133,6 @@ public class GameGUI implements ActionListener {
 		} else if (e.getSource() instanceof JButton) { // source is a game filed
 			JButton button = (JButton) e.getSource();
 			if (!_logic.spielIstZuende() && _logic.istFrei(row, col)) { // the game isn't over
-				_logic.besetzePosition(row, col);
-				button.setText(_next);
-//				button.setEnabled(false);
-				setNextPlayer();
 				// play sound
 				if(!_isMute) {
 					try {
@@ -145,10 +142,14 @@ public class GameGUI implements ActionListener {
 						e1.printStackTrace();
 					}
 				}
+				_logic.besetzePosition(row, col);
+				button.setText(_next);
+				setNextPlayer();
 				// game over ?
 				if (_logic.spielIstZuende()) {
 					showWinner();
 				}
+				
 				
 			} else if (_logic.spielIstZuende()) { // game is over
 				showWinner();
@@ -157,8 +158,12 @@ public class GameGUI implements ActionListener {
 			_infoLabel.setText(_next + " ist dran");
 		}
 	}
+	
+	private void focusOnWinnerFields() {
+		
+	}
 
-	private void showWinner() {
+	private void showWinner() {	
 		gameOverDialog();
 	}
 
